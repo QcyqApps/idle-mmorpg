@@ -1,8 +1,7 @@
 #nullable enable
-using Cysharp.Threading.Tasks;
 using IdleMmo.Client.Core;
+using IdleMmo.Client.Localization;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using VContainer;
 
@@ -17,18 +16,19 @@ public sealed class BootEntry : MonoBehaviour
     [SerializeField] private string _nextScene = "01_Login";
 
     private ILog? _log;
+    private LocService? _loc;
 
     [Inject]
-    public void Inject(ILog log)
+    public void Inject(ILog log, LocService loc)
     {
         _log = log;
+        _loc = loc;
     }
 
     private async void Start()
     {
         _log?.Info("Boot: preloading localization...");
-        var preload = LocalizationSettings.InitializationOperation;
-        await preload.Task;
+        if (_loc is not null) await _loc.InitializeAsync();
         _log?.Info($"Boot: localization ready, loading scene '{_nextScene}'.");
         await SceneManager.LoadSceneAsync(_nextScene, LoadSceneMode.Single);
     }

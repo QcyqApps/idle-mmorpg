@@ -3,7 +3,8 @@
     "rootNamespace": "IdleMmo.Client.Network",
     "references": [
         "IdleMmo.Client.Core",
-        "UniTask"
+        "UniTask",
+        "Unity.Nuget.Newtonsoft-Json"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

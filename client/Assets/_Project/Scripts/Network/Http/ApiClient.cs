@@ -1,19 +1,22 @@
 #nullable enable
 using System;
 using System.Text;
-using System.Text.Json;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using IdleMmo.Client.Core;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using UnityEngine.Networking;
 
 namespace IdleMmo.Client.Network.Http;
 
 public sealed class ApiClient
 {
-    private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
+    private static readonly JsonSerializerSettings JsonSettings = new()
     {
-        WriteIndented = false,
+        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+        NullValueHandling = NullValueHandling.Ignore,
+        DateParseHandling = DateParseHandling.DateTimeOffset,
     };
 
     private readonly ApiClientOptions _options;
@@ -42,7 +45,7 @@ public sealed class ApiClient
 
         if (body is not null)
         {
-            string json = JsonSerializer.Serialize(body, JsonOptions);
+            string json = JsonConvert.SerializeObject(body, JsonSettings);
             byte[] bytes = Encoding.UTF8.GetBytes(json);
             req.uploadHandler = new UploadHandlerRaw(bytes) { contentType = "application/json" };
         }
@@ -59,12 +62,12 @@ public sealed class ApiClient
         }
         catch (UnityWebRequestException ex)
         {
-            throw await TranslateErrorAsync(ex.UnityWebRequest);
+            throw TranslateError(ex.UnityWebRequest);
         }
 
         if (req.result != UnityWebRequest.Result.Success)
         {
-            throw await TranslateErrorAsync(req);
+            throw TranslateError(req);
         }
 
         string responseBody = req.downloadHandler.text;
@@ -74,7 +77,7 @@ public sealed class ApiClient
         }
         try
         {
-            return JsonSerializer.Deserialize<TResp>(responseBody, JsonOptions)!;
+            return JsonConvert.DeserializeObject<TResp>(responseBody, JsonSettings)!;
         }
         catch (JsonException ex)
         {
@@ -83,20 +86,20 @@ public sealed class ApiClient
         }
     }
 
-    private UniTask<HttpException> TranslateErrorAsync(UnityWebRequest req)
+    private static HttpException TranslateError(UnityWebRequest req)
     {
         int code = (int)req.responseCode;
         string body = req.downloadHandler?.text ?? string.Empty;
         ProblemDetails? problem = null;
         if (!string.IsNullOrEmpty(body))
         {
-            try { problem = JsonSerializer.Deserialize<ProblemDetails>(body, JsonOptions); }
+            try { problem = JsonConvert.DeserializeObject<ProblemDetails>(body, JsonSettings); }
             catch { /* not problem-details — keep raw body in detail */ }
         }
-        return UniTask.FromResult(new HttpException(
+        return new HttpException(
             statusCode: code,
             title: problem?.Title,
-            detail: problem?.Detail ?? body));
+            detail: problem?.Detail ?? body);
     }
 
     private static string CombineUrl(string baseUrl, string path)

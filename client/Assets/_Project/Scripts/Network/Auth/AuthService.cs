@@ -105,6 +105,8 @@ public sealed class AuthService
     {
         using var sha = System.Security.Cryptography.SHA256.Create();
         byte[] bytes = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(s));
-        return Convert.ToHexStringLower(bytes);
+        var sb = new System.Text.StringBuilder(bytes.Length * 2);
+        foreach (byte b in bytes) sb.Append(b.ToString("x2"));
+        return sb.ToString();
     }
 }

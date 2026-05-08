@@ -15,6 +15,12 @@ public sealed class LocService
 {
     private const string DefaultTable = "UI";
 
+    /// <summary>Awaits Unity Localization's initialization (locale + tables).</summary>
+    public async UniTask InitializeAsync()
+    {
+        await LocalizationSettings.InitializationOperation.Task;
+    }
+
     public async UniTask<string> ResolveAsync(LocKey key, string? table = null)
     {
         var op = LocalizationSettings.StringDatabase

@@ -4,7 +4,9 @@
     "references": [
         "IdleMmo.Client.Core",
         "Unity.Localization",
-        "Unity.TextMeshPro"
+        "Unity.ResourceManager",
+        "Unity.TextMeshPro",
+        "UniTask"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

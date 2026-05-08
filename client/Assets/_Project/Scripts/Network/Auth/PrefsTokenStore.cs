@@ -2,8 +2,8 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
 using IdleMmo.Client.Core;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace IdleMmo.Client.Network.Auth;
@@ -32,7 +32,7 @@ public sealed class PrefsTokenStore : ITokenStore
         {
             string blob = PlayerPrefs.GetString(PrefsKey);
             string json = Decrypt(blob);
-            return JsonSerializer.Deserialize<StoredSession>(json);
+            return JsonConvert.DeserializeObject<StoredSession>(json);
         }
         catch (Exception ex)
         {
@@ -46,7 +46,7 @@ public sealed class PrefsTokenStore : ITokenStore
     {
         try
         {
-            string json = JsonSerializer.Serialize(session);
+            string json = JsonConvert.SerializeObject(session);
             string blob = Encrypt(json);
             PlayerPrefs.SetString(PrefsKey, blob);
             PlayerPrefs.Save();
@@ -66,7 +66,8 @@ public sealed class PrefsTokenStore : ITokenStore
     private static byte[] DeriveKey()
     {
         string seed = SystemInfo.deviceUniqueIdentifier + ":" + Pepper;
-        return SHA256.HashData(Encoding.UTF8.GetBytes(seed));
+        using var sha = SHA256.Create();
+        return sha.ComputeHash(Encoding.UTF8.GetBytes(seed));
     }
 
     private static string Encrypt(string plaintext)
