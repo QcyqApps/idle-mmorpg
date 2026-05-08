@@ -1,0 +1,2 @@
+Projekt tworzony AI driven development. Konieczne Unity MCP. Gra ma być anti-cheat, czyli serwer waliduje wszystko.
+Język w kodzie i w grze - angielski, od początku pisany z otwartym modułęm translacji (opakowanie tekstów)

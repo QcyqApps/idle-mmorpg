@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/IdleMmo.Api/IdleMmo.Api.csproj" />
+    <Project Path="src/IdleMmo.Application/IdleMmo.Application.csproj" />
+    <Project Path="src/IdleMmo.Domain/IdleMmo.Domain.csproj" />
+    <Project Path="src/IdleMmo.Infrastructure/IdleMmo.Infrastructure.csproj" />
+    <Project Path="src/IdleMmo.Workers/IdleMmo.Workers.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/IdleMmo.Api.IntegrationTests/IdleMmo.Api.IntegrationTests.csproj" />
+    <Project Path="tests/IdleMmo.Application.Tests/IdleMmo.Application.Tests.csproj" />
+    <Project Path="tests/IdleMmo.Domain.Tests/IdleMmo.Domain.Tests.csproj" />
+    <Project Path="tests/IdleMmo.Replay.Tests/IdleMmo.Replay.Tests.csproj" />
+  </Folder>
+</Solution>

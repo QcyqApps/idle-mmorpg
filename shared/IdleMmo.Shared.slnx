@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/IdleMmo.Shared/IdleMmo.Shared.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/IdleMmo.Shared.Tests/IdleMmo.Shared.Tests.csproj" />
+  </Folder>
+</Solution>

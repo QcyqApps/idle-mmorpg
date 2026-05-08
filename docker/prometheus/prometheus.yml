@@ -1,0 +1,18 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: idle-mmo-api
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['api:5000']
+
+  - job_name: idle-mmo-workers
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['workers:5000']

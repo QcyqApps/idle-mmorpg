@@ -1,0 +1,109 @@
+# Default behavior: normalize line endings on commit, OS-native on checkout.
+* text=auto eol=lf
+
+# Force CRLF for Windows-only artifacts that need it
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+*.ps1       text eol=crlf
+*.sln       text eol=crlf
+
+# Force LF for shell scripts
+*.sh        text eol=lf
+
+# Source files — text, diffable
+*.cs              text diff=csharp
+*.csproj          text
+*.sln             text
+*.props           text
+*.targets         text
+*.json            text
+*.md              text
+*.yml             text
+*.yaml            text
+*.xml             text
+*.config          text
+
+# Unity asset / scene files — TEXT (Visible Meta Files + Force Text serialization assumed).
+# If the project ever switches to binary serialization these MUST be moved to LFS.
+*.unity           text merge=unityyamlmerge eol=lf
+*.prefab          text merge=unityyamlmerge eol=lf
+*.asset           text merge=unityyamlmerge eol=lf
+*.meta            text merge=unityyamlmerge eol=lf
+*.mat             text merge=unityyamlmerge eol=lf
+*.anim            text merge=unityyamlmerge eol=lf
+*.controller      text merge=unityyamlmerge eol=lf
+*.physicMaterial  text merge=unityyamlmerge eol=lf
+*.physicsMaterial text merge=unityyamlmerge eol=lf
+*.physicMaterial2D text merge=unityyamlmerge eol=lf
+*.guiskin         text merge=unityyamlmerge eol=lf
+*.flare           text merge=unityyamlmerge eol=lf
+*.lighting        text merge=unityyamlmerge eol=lf
+*.terrainlayer    text merge=unityyamlmerge eol=lf
+*.spriteatlas     text merge=unityyamlmerge eol=lf
+*.preset          text merge=unityyamlmerge eol=lf
+
+# =====================
+#  Git LFS — binary art assets and audio
+# =====================
+*.fbx       filter=lfs diff=lfs merge=lfs -text
+*.obj       filter=lfs diff=lfs merge=lfs -text
+*.dae       filter=lfs diff=lfs merge=lfs -text
+*.3ds       filter=lfs diff=lfs merge=lfs -text
+*.blend     filter=lfs diff=lfs merge=lfs -text
+*.ma        filter=lfs diff=lfs merge=lfs -text
+*.mb        filter=lfs diff=lfs merge=lfs -text
+*.max       filter=lfs diff=lfs merge=lfs -text
+*.c4d       filter=lfs diff=lfs merge=lfs -text
+*.glb       filter=lfs diff=lfs merge=lfs -text
+*.gltf      filter=lfs diff=lfs merge=lfs -text
+
+# Textures
+*.png       filter=lfs diff=lfs merge=lfs -text
+*.jpg       filter=lfs diff=lfs merge=lfs -text
+*.jpeg      filter=lfs diff=lfs merge=lfs -text
+*.bmp       filter=lfs diff=lfs merge=lfs -text
+*.tga       filter=lfs diff=lfs merge=lfs -text
+*.tif       filter=lfs diff=lfs merge=lfs -text
+*.tiff      filter=lfs diff=lfs merge=lfs -text
+*.gif       filter=lfs diff=lfs merge=lfs -text
+*.psd       filter=lfs diff=lfs merge=lfs -text
+*.exr       filter=lfs diff=lfs merge=lfs -text
+*.hdr       filter=lfs diff=lfs merge=lfs -text
+*.dds       filter=lfs diff=lfs merge=lfs -text
+
+# Audio
+*.wav       filter=lfs diff=lfs merge=lfs -text
+*.mp3       filter=lfs diff=lfs merge=lfs -text
+*.ogg       filter=lfs diff=lfs merge=lfs -text
+*.aif       filter=lfs diff=lfs merge=lfs -text
+*.aiff      filter=lfs diff=lfs merge=lfs -text
+*.flac      filter=lfs diff=lfs merge=lfs -text
+
+# Video
+*.mp4       filter=lfs diff=lfs merge=lfs -text
+*.mov       filter=lfs diff=lfs merge=lfs -text
+*.avi       filter=lfs diff=lfs merge=lfs -text
+*.webm      filter=lfs diff=lfs merge=lfs -text
+
+# Fonts
+*.ttf       filter=lfs diff=lfs merge=lfs -text
+*.otf       filter=lfs diff=lfs merge=lfs -text
+*.woff      filter=lfs diff=lfs merge=lfs -text
+*.woff2     filter=lfs diff=lfs merge=lfs -text
+
+# Unity packages and bundles
+*.unitypackage filter=lfs diff=lfs merge=lfs -text
+*.bundle       filter=lfs diff=lfs merge=lfs -text
+
+# Compiled native libs
+*.dll       filter=lfs diff=lfs merge=lfs -text
+*.so        filter=lfs diff=lfs merge=lfs -text
+*.dylib     filter=lfs diff=lfs merge=lfs -text
+*.aar       filter=lfs diff=lfs merge=lfs -text
+*.jar       filter=lfs diff=lfs merge=lfs -text
+
+# Archive
+*.zip       filter=lfs diff=lfs merge=lfs -text
+*.7z        filter=lfs diff=lfs merge=lfs -text
+*.rar       filter=lfs diff=lfs merge=lfs -text
+*.gz        filter=lfs diff=lfs merge=lfs -text

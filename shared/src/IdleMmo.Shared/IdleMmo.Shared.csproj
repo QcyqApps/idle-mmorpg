@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>IdleMmo.Shared</AssemblyName>
+    <RootNamespace>IdleMmo.Shared</RootNamespace>
+    <DebugType>portable</DebugType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UnityPluginsDir>$(MSBuildThisFileDirectory)..\..\..\client\Assets\Plugins\</UnityPluginsDir>
+  </PropertyGroup>
+
+  <Target Name="CopyToUnityPlugins" AfterTargets="Build" Condition="Exists('$(UnityPluginsDir)') Or '$(SkipUnityCopy)' != 'true'">
+    <MakeDir Directories="$(UnityPluginsDir)" Condition="!Exists('$(UnityPluginsDir)')" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(UnityPluginsDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(UnityPluginsDir)" SkipUnchangedFiles="true" Condition="Exists('$(TargetDir)$(TargetName).pdb')" />
+    <Copy SourceFiles="$(TargetDir)$(TargetName).xml" DestinationFolder="$(UnityPluginsDir)" SkipUnchangedFiles="true" Condition="Exists('$(TargetDir)$(TargetName).xml')" />
+    <Message Text="IdleMmo.Shared.dll copied to $(UnityPluginsDir)" Importance="high" />
+  </Target>
+
+</Project>

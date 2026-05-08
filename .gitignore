@@ -1,0 +1,141 @@
+# =====================
+#  Unity (client/)
+# =====================
+
+# Generated build artifacts and Unity caches
+client/[Ll]ibrary/
+client/[Tt]emp/
+client/[Oo]bj/
+client/[Bb]uild/
+client/[Bb]uilds/
+client/[Ll]ogs/
+client/[Uu]ser[Ss]ettings/
+client/[Mm]emoryCaptures/
+client/[Rr]ecordings/
+
+# Asset meta data should ONLY be ignored when the corresponding asset is also ignored
+!client/[Ll]ibrary/PackageCache/
+
+# Crashlytics generated files
+client/crashlytics-build.properties
+
+# Visual Studio / Rider / VSCode
+client/.vs/
+client/.vscode/
+client/.idea/
+client/*.csproj
+client/*.unityproj
+client/*.sln
+client/*.suo
+client/*.tmp
+client/*.user
+client/*.userprefs
+client/*.pidb
+client/*.booproj
+client/*.svd
+client/*.pdb
+client/*.mdb
+client/*.opendb
+client/*.VC.db
+
+# Unity3D generated meta files
+client/*.pidb.meta
+client/*.pdb.meta
+client/*.mdb.meta
+
+# Unity3D generated file on crash reports
+client/sysinfo.txt
+
+# Builds
+client/*.apk
+client/*.aab
+client/*.unitypackage
+client/*.app
+
+# Output of the shared library copy step (regenerated locally and in CI)
+client/Assets/Plugins/IdleMmo.Shared.dll
+client/Assets/Plugins/IdleMmo.Shared.pdb
+client/Assets/Plugins/IdleMmo.Shared.xml
+
+# =====================
+#  .NET (server/, shared/, tools/)
+# =====================
+**/[Bb]in/
+**/[Oo]bj/
+**/[Oo]ut/
+**/[Pp]ackages/
+!client/Packages/
+**/.vs/
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+**/[Tt]est[Rr]esult*/
+**/[Bb]uild[Ll]og.*
+**/*.VisualState.xml
+**/TestResult.xml
+**/[Dd]ebug/
+**/[Dd]ebugPublic/
+**/[Rr]elease/
+**/[Rr]eleases/
+**/x64/
+**/x86/
+**/.idea/
+**/.vscode/
+
+# JetBrains
+.idea/
+**/.idea/
+
+# .NET Core / .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.binlog
+*.nuget.props
+*.nuget.targets
+
+# EF Core temp files
+**/Migrations/Backup_*
+
+# Log files
+*.log
+logs/
+
+# =====================
+#  Environment / secrets
+# =====================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+appsettings.Development.json
+appsettings.Local.json
+
+# =====================
+#  Docker
+# =====================
+docker-compose.override.yml
+
+# =====================
+#  OS
+# =====================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+.Spotlight-V100
+.Trashes
+
+# =====================
+#  Tooling outputs
+# =====================
+coverage/
+.coverage
+*.coverage
+*.coveragexml
+.idea_modules/
+.vs/
+node_modules/

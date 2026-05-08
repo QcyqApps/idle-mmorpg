@@ -1,0 +1,129 @@
+name: idle-mmorpg
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: idle-mmo-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+
+  api:
+    image: ghcr.io/qcyqapps/idle-mmorpg-api:${API_TAG:-latest}
+    container_name: idle-mmo-api
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=idlemmo;Username=idlemmo;Password=${POSTGRES_PASSWORD}
+      ConnectionStrings__Redis: redis:6379
+      Auth__JwtSigningKey: ${JWT_SIGNING_KEY}
+      Auth__GoogleClientIds__Android: ${GOOGLE_CLIENT_ID_ANDROID}
+      Otel__OtlpEndpoint: http://tempo:4317
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5000/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  workers:
+    image: ghcr.io/qcyqapps/idle-mmorpg-api:${API_TAG:-latest}
+    container_name: idle-mmo-workers
+    restart: unless-stopped
+    command: ["dotnet", "IdleMmo.Workers.dll"]
+    environment:
+      DOTNET_ENVIRONMENT: Production
+      ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=idlemmo;Username=idlemmo;Password=${POSTGRES_PASSWORD}
+      ConnectionStrings__Redis: redis:6379
+      Otel__OtlpEndpoint: http://tempo:4317
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: idle-mmo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: idlemmo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: idlemmo
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U idlemmo -d idlemmo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: idle-mmo-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: idle-mmo-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: idle-mmo-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+      - tempo
+
+  tempo:
+    image: grafana/tempo:latest
+    container_name: idle-mmo-tempo
+    restart: unless-stopped
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./docker/tempo/tempo.yaml:/etc/tempo.yaml:ro
+      - tempo_data:/var/tempo
+
+volumes:
+  pg_data:
+  redis_data:
+  caddy_data:
+  caddy_config:
+  prometheus_data:
+  grafana_data:
+  tempo_data:

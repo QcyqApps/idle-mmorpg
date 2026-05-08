@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<linker>
+  <!--
+    IL2CPP / managed code stripping prevention.
+    The shared deterministic simulation is consumed via reflection-friendly System.Text.Json
+    source generators, but defensive `preserve="all"` is the simplest correct option for now.
+    Once we ship JsonSerializerContext sources, we can scope this down per type.
+  -->
+  <assembly fullname="IdleMmo.Shared" preserve="all" />
+</linker>
