@@ -2,7 +2,6 @@
     "name": "IdleMmo.Client.Localization",
     "rootNamespace": "IdleMmo.Client.Localization",
     "references": [
-        "IdleMmo.Shared",
         "IdleMmo.Client.Core",
         "Unity.Localization",
         "Unity.TextMeshPro"

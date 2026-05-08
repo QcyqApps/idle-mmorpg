@@ -2,8 +2,8 @@
     "name": "IdleMmo.Client.State",
     "rootNamespace": "IdleMmo.Client.State",
     "references": [
-        "IdleMmo.Shared",
-        "IdleMmo.Client.Core"
+        "IdleMmo.Client.Core",
+        "IdleMmo.Client.Network"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

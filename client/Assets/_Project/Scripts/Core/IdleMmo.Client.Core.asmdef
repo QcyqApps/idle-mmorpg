@@ -2,7 +2,6 @@
     "name": "IdleMmo.Client.Core",
     "rootNamespace": "IdleMmo.Client.Core",
     "references": [
-        "IdleMmo.Shared",
         "UniTask"
     ],
     "includePlatforms": [],

@@ -2,10 +2,9 @@
     "name": "IdleMmo.Client.UI",
     "rootNamespace": "IdleMmo.Client.UI",
     "references": [
-        "IdleMmo.Shared",
         "IdleMmo.Client.Core",
-        "IdleMmo.Client.State",
         "IdleMmo.Client.Network",
+        "IdleMmo.Client.State",
         "IdleMmo.Client.Localization",
         "VContainer",
         "UniTask",
