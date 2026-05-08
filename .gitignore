@@ -120,6 +120,12 @@ appsettings.Local.json
 docker-compose.override.yml
 
 # =====================
+#  Stale tooling artifacts
+# =====================
+# Side-effect folder created by editors / shells caching the pre-reorganization cwd.
+/idle-mmorpg/
+
+# =====================
 #  OS
 # =====================
 .DS_Store
